@@ -1,0 +1,1 @@
+Adafruit CircuitPython 6.0.0-rc.2-264-gf2e911ad9 on 2020-11-14; MagTag with ESP32S2
