@@ -47,8 +47,8 @@ small_font = bitmap_font.load_font("/Exo-Bold-25.bdf")
 temperature_label = label.Label(big_font, text="012.45°", color=0x000000, x=28, y=40, background_color=0xFFFFFF)
 humidity_label = label.Label(medium_font, text="12.34%", color=0xFFFFFF, x=12, y=106, background_color=0x444444)
 pressure_label = label.Label(medium_font, text="1234hPa", color=0xFFFFFF, x=140, y=108, background_color=0x444444)
-eco2_label = label.Label(small_font, text="1234ppm", color=0xFFFFFF, x=218, y=20, background_color=0xBBBBBB)
-tvoc_label = label.Label(small_font, text="1234ppb", color=0xFFFFFF, x=218, y=50, background_color=0xBBBBBB)
+eco2_label = label.Label(small_font, text="1234ppm", color=0x000000, x=218, y=20, background_color=0xBBBBBB)
+tvoc_label = label.Label(small_font, text="1234ppb", color=0x000000, x=218, y=50, background_color=0xBBBBBB)
 
 ## Bitmaps
 thermometer_bitmap = displayio.OnDiskBitmap(open("/thermometer.bmp", "rb"))
