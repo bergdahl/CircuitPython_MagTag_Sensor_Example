@@ -32,37 +32,47 @@ led = DigitalInOut(board.D13)
 led.direction = Direction.OUTPUT
 led.value = True
 
-splash = displayio.Group(max_size=20)
+group = displayio.Group(max_size=20)
 # background
-rect = Rect(0, 0, 296, 128, fill=0xFFFFFF)
-# Text
-font = bitmap_font.load_font("/Exo-Bold-75.bdf")
-color = 0x000000
-text = "{:4.2f}°".format(bme680_sensor.temperature)
-text_area1 = label.Label(font, text=text, color=color)
-text_area1.x = 28
-text_area1.y = 40
-text_area1.background_color=0xFFFFFF
+rect1 = Rect(0, 0, 208, 82, fill=0xFFFFFF)
+rect2 = Rect(210, 0, 296, 82, fill=0xBBBBBB)
+rect3 = Rect(0, 84, 296, 128, fill=0x444444)
+
+# Create fonts
+big_font = bitmap_font.load_font("/Exo-Bold-75.bdf")
+medium_font = bitmap_font.load_font("/Exo-Bold-38.bdf")
+small_font = bitmap_font.load_font("/Exo-Bold-25.bdf")
+
+# Create sensor value labels
+temperature_label = label.Label(big_font, text="012.45°", color=0x000000, x=28, y=40, background_color=0xFFFFFF)
+humidity_label = label.Label(medium_font, text="12.34%", color=0xFFFFFF, x=12, y=106, background_color=0x444444)
+pressure_label = label.Label(medium_font, text="1234hPa", color=0xFFFFFF, x=140, y=108, background_color=0x444444)
+eco2_label = label.Label(small_font, text="1234ppm", color=0xFFFFFF, x=218, y=20, background_color=0xBBBBBB)
+tvoc_label = label.Label(small_font, text="1234ppb", color=0xFFFFFF, x=218, y=50, background_color=0xBBBBBB)
+
 ## Bitmaps
 thermometer_bitmap = displayio.OnDiskBitmap(open("/thermometer.bmp", "rb"))
-tilegrid = displayio.TileGrid(thermometer_bitmap, pixel_shader=displayio.ColorConverter())
-tilegrid.x = 10
-tilegrid.y = 10
+tilegrid = displayio.TileGrid(thermometer_bitmap, pixel_shader=displayio.ColorConverter(), x=4, y=10)
 
-splash.append(rect)
-splash.append(text_area1)
-splash.append(tilegrid)
+# Compose group
+group.append(rect1)
+group.append(rect2)
+group.append(rect3)
+group.append(temperature_label)
+group.append(humidity_label)
+group.append(pressure_label)
+group.append(eco2_label)
+group.append(tvoc_label)
+group.append(tilegrid)
 
-display.show(splash)
-print("WTF")
-display.refresh()
-print("WTF")
-elapsed_sec = 0
+remaining_time = 0
 
 while True:
     time.sleep(1)
-    elapsed_sec += 1
-    if elapsed_sec > 5 * 60:
+    remaining_time -= 1
+    if remaining_time <= 0:
+        remaining_time = 5 * 60
+
         print("========================")
         print('BME Temperature: {} C'.format(bme680_sensor.temperature))
         print('BME Gas: {} ohms'.format(bme680_sensor.gas))
@@ -72,7 +82,10 @@ while True:
         print("SGP eCO2 = %d ppm" % (sgp30_sensor.eCO2))
         print("SGP TVOC = %d ppb" % (sgp30_sensor.TVOC))
 
-        elapsed_sec = 0
-        text_area1.text = "{:4.2f}°".format(bme680_sensor.temperature)
-        display.show(splash)
+        temperature_label.text = "{:4.1f}°".format(bme680_sensor.temperature)
+        humidity_label.text = "{:4.1f}%".format(bme680_sensor.humidity)
+        pressure_label.text = "{:4.0f}hPa".format(bme680_sensor.pressure)
+        eco2_label.text = "{:4.0f}ppm".format(sgp30_sensor.eCO2)
+        tvoc_label.text = "{:4.0f}ppb".format(sgp30_sensor.TVOC)
+        display.show(group)
         display.refresh()
