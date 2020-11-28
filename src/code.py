@@ -39,9 +39,9 @@ rect2 = Rect(210, 0, 296, 82, fill=0xBBBBBB)
 rect3 = Rect(0, 84, 296, 128, fill=0x444444)
 
 # Create fonts
-big_font = bitmap_font.load_font("/ExoBold-72.bdf")
-medium_font = bitmap_font.load_font("/ExoSemiBold-36.bdf")
-small_font = bitmap_font.load_font("/ExoSemiBold-24.bdf")
+big_font = bitmap_font.load_font("/Exo-Bold-72.bdf")
+medium_font = bitmap_font.load_font("/Exo-SemiBold-36.bdf")
+small_font = bitmap_font.load_font("/Exo-SemiBold-24.bdf")
 
 # Create sensor value labels
 temperature_label = label.Label(big_font, text="012.45°", color=0x000000, x=28, y=40, background_color=0xFFFFFF)
