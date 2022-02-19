@@ -11,6 +11,19 @@ import adafruit_bme680
 import adafruit_sgp30
 from adafruit_display_shapes.rect import Rect
 import adafruit_imageload
+import neopixel
+from secrets import secrets
+import wifi
+
+RED = (16, 0, 0)
+GREEN = (0, 16, 0)
+
+pixel = neopixel.NeoPixel(board.NEOPIXEL_POWER, 1, auto_write=True)
+pixel.fill(GREEN)
+pixel.show()
+pixels = neopixel.NeoPixel(board.NEOPIXEL, 4, auto_write=True)
+pixels.fill(GREEN)
+pixels.show()
 
 print('Setting up sensors')
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -19,10 +32,6 @@ sgp30_sensor = adafruit_sgp30.Adafruit_SGP30(i2c)
 
 print('Setting up display')
 display = board.DISPLAY
-
-led = DigitalInOut(board.D13)
-led.direction = Direction.OUTPUT
-led.value = True
 
 group = displayio.Group(max_size=20)
 # background
@@ -35,35 +44,35 @@ print("Loading fonts")
 big_font = bitmap_font.load_font("/Exo-Bold-42.bdf")
 medium_font = bitmap_font.load_font("/Exo-SemiBold-18.bdf")
 small_font = bitmap_font.load_font("/Exo-SemiBold-12.bdf")
-tiny_font = bitmap_font.load_font("/Exo-SemiBold-6.bdf")
+tiny_font = bitmap_font.load_font("/Exo-SemiBold-9.bdf")
 
 ## Bitmaps
 print("Loading bitmaps")
 thermometer_bitmap = displayio.OnDiskBitmap(open("/thermometer.bmp", "rb"))
 temperature_tile = displayio.TileGrid(thermometer_bitmap, pixel_shader=displayio.ColorConverter(), x=4, y=18)
-humidity_bitmap = displayio.OnDiskBitmap(open("/thermometer.bmp", "rb")) # "/water.bmp", "rb"))
-humidity_tile = displayio.TileGrid(humidity_bitmap, pixel_shader=displayio.ColorConverter(), x=4, y=90)
-pressure_bitmap = displayio.OnDiskBitmap(open("/thermometer.bmp", "rb")) # "/cloud.bmp", "rb"))
-pressure_tile = displayio.TileGrid(pressure_bitmap, pixel_shader=displayio.ColorConverter(), x=160, y=90)
+humidity_bitmap = displayio.OnDiskBitmap(open("/water.bmp", "rb")) # "/water.bmp", "rb"))
+humidity_tile = displayio.TileGrid(humidity_bitmap, pixel_shader=displayio.ColorConverter(), x=4, y=98)
+pressure_bitmap = displayio.OnDiskBitmap(open("/cloud.bmp", "rb")) # "/cloud.bmp", "rb"))
+pressure_tile = displayio.TileGrid(pressure_bitmap, pixel_shader=displayio.ColorConverter(), x=130, y=98)
 
 # Create sensor value labels
 temperature_label = label.Label(big_font, text="012.45°", color=0x000000, x=28, y=45, background_color=0xFFFFFF)
 temperature_label.anchor_point = (0.5, 0.5)
 temperature_label.anchored_position = (100, 45)
-humidity_label = label.Label(medium_font, text="012.34%", color=0xFFFFFF, x=24, y=110, background_color=0x444444)
-pressure_label = label.Label(medium_font, text="1234hPa", color=0xFFFFFF, x=140, y=110, background_color=0x444444)
+humidity_label = label.Label(medium_font, text="012.34%", color=0xFFFFFF, x=30, y=110, background_color=0x444444)
+pressure_label = label.Label(medium_font, text="1234hPa", color=0xFFFFFF, x=156, y=110, background_color=0x444444)
 eco2_text = label.Label(tiny_font, text="eCO2", color=0x000000, x=218, y=8, background_color=0xBBBBBB)
 eco2_text.anchor_point = (0.5, 0)
 eco2_text.anchored_position = (245, 8)
-eco2_label = label.Label(small_font, text="1234 ppm", color=0x000000, x=218, y=20, background_color=0xBBBBBB)
+eco2_label = label.Label(small_font, text="1234 ppm", color=0x000000, x=218, y=22, background_color=0xBBBBBB)
 eco2_label.anchor_point = (0.5, 0)
-eco2_label.anchored_position = (245, 20)
+eco2_label.anchored_position = (245, 22)
 tvoc_text = label.Label(tiny_font, text="TVOC", color=0x000000, x=218, y=8, background_color=0xBBBBBB)
 tvoc_text.anchor_point = (0.5, 0)
 tvoc_text.anchored_position = (245, 50)
-tvoc_label = label.Label(small_font, text="1234 ppb", color=0x000000, x=218, y=70, background_color=0xBBBBBB)
+tvoc_label = label.Label(small_font, text="1234 ppb", color=0x000000, x=218, y=72, background_color=0xBBBBBB)
 tvoc_label.anchor_point = (0.5, 0)
-tvoc_label.anchored_position = (245, 62)
+tvoc_label.anchored_position = (245, 64)
 
 # Compose group
 group.append(rect1)
