@@ -33,7 +33,7 @@ sgp30_sensor = adafruit_sgp30.Adafruit_SGP30(i2c)
 print('Setting up display')
 display = board.DISPLAY
 
-group = displayio.Group(max_size=20)
+group = displayio.Group()
 # background
 rect1 = Rect(0, 0, 199, 90, fill=0xFFFFFF)
 rect2 = Rect(200, 0, 296, 90, fill=0xBBBBBB)
@@ -49,11 +49,11 @@ tiny_font = bitmap_font.load_font("/Exo-SemiBold-9.bdf")
 ## Bitmaps
 print("Loading bitmaps")
 thermometer_bitmap = displayio.OnDiskBitmap(open("/thermometer.bmp", "rb"))
-temperature_tile = displayio.TileGrid(thermometer_bitmap, pixel_shader=displayio.ColorConverter(), x=4, y=18)
+temperature_tile = displayio.TileGrid(thermometer_bitmap, pixel_shader=thermometer_bitmap.pixel_shader, x=4, y=18)
 humidity_bitmap = displayio.OnDiskBitmap(open("/water.bmp", "rb")) # "/water.bmp", "rb"))
-humidity_tile = displayio.TileGrid(humidity_bitmap, pixel_shader=displayio.ColorConverter(), x=4, y=98)
+humidity_tile = displayio.TileGrid(humidity_bitmap, pixel_shader=humidity_bitmap.pixel_shader, x=4, y=98)
 pressure_bitmap = displayio.OnDiskBitmap(open("/cloud.bmp", "rb")) # "/cloud.bmp", "rb"))
-pressure_tile = displayio.TileGrid(pressure_bitmap, pixel_shader=displayio.ColorConverter(), x=130, y=98)
+pressure_tile = displayio.TileGrid(pressure_bitmap, pixel_shader=pressure_bitmap.pixel_shader, x=130, y=98)
 
 # Create sensor value labels
 temperature_label = label.Label(big_font, text="012.45°", color=0x000000, x=28, y=45, background_color=0xFFFFFF)
