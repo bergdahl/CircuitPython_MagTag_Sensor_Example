@@ -35,9 +35,9 @@ display = board.DISPLAY
 
 group = displayio.Group()
 # background
-rect1 = Rect(0, 0, 199, 90, fill=0xFFFFFF)
-rect2 = Rect(200, 0, 296, 90, fill=0xBBBBBB)
-rect3 = Rect(0, 91, 296, 128, fill=0x444444)
+rect1 = Rect(0, 0, 199, 92, fill=0xFFFFFF)
+rect2 = Rect(200, 0, 296, 92, fill=0xBBBBBB)
+rect3 = Rect(0, 93, 296, 128, fill=0x444444)
 
 # Create fonts
 print("Loading fonts")
@@ -56,7 +56,7 @@ pressure_bitmap = displayio.OnDiskBitmap(open("/cloud.bmp", "rb")) # "/cloud.bmp
 pressure_tile = displayio.TileGrid(pressure_bitmap, pixel_shader=pressure_bitmap.pixel_shader, x=130, y=98)
 
 # Create sensor value labels
-temperature_label = label.Label(big_font, text="012.45°", color=0x000000, x=28, y=45, background_color=0xFFFFFF)
+temperature_label = label.Label(big_font, text="012.45°", color=0x000000, x=28, y=44, background_color=0xFFFFFF)
 temperature_label.anchor_point = (0.5, 0.5)
 temperature_label.anchored_position = (100, 45)
 humidity_label = label.Label(medium_font, text="012.34%", color=0xFFFFFF, x=30, y=110, background_color=0x444444)
